@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginController, userController } = require('./controllers');
+const { loginController, userController, categoriesController } = require('./controllers');
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
@@ -18,5 +18,11 @@ app.get('/user/:id', validateJWT, async (req, res) => userController.getUserById
 app.post('/login', async (req, res) => loginController.postLogin(req, res));
 
 app.post('/user', async (req, res) => userController.postUser(req, res));
+
+app.post(
+  '/categories', 
+  validateJWT,
+  async (req, res) => categoriesController.postCategories(req, res),
+);
 
 module.exports = app;
