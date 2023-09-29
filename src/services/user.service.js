@@ -1,8 +1,13 @@
-const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 const { validateUser } = require('./validations/validationsInputValues');
+const { creatToken } = require('../middlewares/token');
 
-const secret = process.env.JWT_SECRET || 'suaSenhaSecreta';
+const getUser = async () => {
+  const users = await User.findAll({
+    attributes: { exclude: ['password'] },
+  });
+  return { status: 'SUCCESSFUL', data: users };
+};
 
 const postUser = async (req) => {
   const error = await validateUser(req.body);
@@ -14,14 +19,11 @@ const postUser = async (req) => {
     password,
     image,
   });
-  const jwtConfig = {
-    expiresIn: '7d',
-    algorithm: 'HS256',
-  };
-  const token = jwt.sign({ data: { userId: newUser.id } }, secret, jwtConfig);
+  const token = creatToken(newUser.id);
   return { status: 'CREATED', data: { token } };
 };
 
 module.exports = {
   postUser,
+  getUser,
 };
