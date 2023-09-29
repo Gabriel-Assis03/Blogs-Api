@@ -14,8 +14,15 @@ const emailSchema = Joi.string().email({
   'string.email': '"email" must be a valid email',
 }).required();
 
+const postSchema = Joi.object({
+  title: Joi.string().required(),
+  content: Joi.string().required(),
+  categoryIds: Joi.array().required(),
+});
+
 module.exports = {
   displayNameSchema,
   emailSchema,
   passwordSchema,
+  postSchema,
 };

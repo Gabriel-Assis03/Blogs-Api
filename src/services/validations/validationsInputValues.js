@@ -1,5 +1,9 @@
 const schemas = require('./schemas');
-const { User } = require('../../models');
+const { User, Category } = require('../../models');
+
+function isArrayContainedInArray(a, b) {
+  return a.every((e) => b.includes(e));
+}
 
 const validateLogin = (keysObjectToValidate) => {
   const { email, password } = keysObjectToValidate;
@@ -22,7 +26,23 @@ const validateUser = async (keysObjectToValidate) => {
   if (user) return { status: 'CONFLICT', message: 'User already registered' };
 };
 
+const validatePost = async (keysObjectToValidate) => {
+  const error1 = schemas.postSchema.validate(keysObjectToValidate);
+  if (error1.error) return { status: 'INVALID_KEY', message: 'Some required fields are missing' };
+  const { categoryIds } = keysObjectToValidate;
+  const allCategory = await Category.findAll({
+    attributes: { exclude: ['name'] },
+  });
+  const idsArray = allCategory.map((category) => category.dataValues.id);
+  const isContained = isArrayContainedInArray(categoryIds, idsArray);
+  if (!isContained) {
+    return { status: 'INVALID_KEY',
+      message: 'one or more "categoryIds" not found' }; 
+  }
+};
+
 module.exports = {
   validateLogin,
   validateUser,
+  validatePost,
 };

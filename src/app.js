@@ -1,5 +1,10 @@
 const express = require('express');
-const { loginController, userController, categoriesController } = require('./controllers');
+const { 
+  loginController, 
+  userController, 
+  categoriesController, 
+  postController,
+} = require('./controllers');
 const validateJWT = require('./auth/validateJWT');
 
 const app = express();
@@ -30,5 +35,7 @@ app.post(
   validateJWT,
   async (req, res) => categoriesController.postCategories(req, res),
 );
+
+app.post('/post', validateJWT, async (req, res) => postController.postPost(req, res));
 
 module.exports = app;

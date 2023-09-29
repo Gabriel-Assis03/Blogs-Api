@@ -11,8 +11,14 @@ const BlogPost = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER, 
       foreignKey: true
     },
-    published: DataTypes.DATE,
-    updated: DataTypes.DATE,
+    published: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+    },
+    updated: {
+      type: DataTypes.DATE,
+      defaultValue: new Date(),
+    },
   },
   {
     timestamps: false,
