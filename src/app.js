@@ -13,6 +13,8 @@ app.use(express.json());
 
 app.get('/user', validateJWT, async (req, res) => userController.getUser(req, res));
 
+app.get('/user/:id', validateJWT, async (req, res) => userController.getUserById(req, res));
+
 app.post('/login', async (req, res) => loginController.postLogin(req, res));
 
 app.post('/user', async (req, res) => userController.postUser(req, res));

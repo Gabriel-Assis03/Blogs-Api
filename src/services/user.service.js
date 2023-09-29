@@ -9,6 +9,14 @@ const getUser = async () => {
   return { status: 'SUCCESSFUL', data: users };
 };
 
+const getUserById = async (id) => {
+  const users = await User.findByPk(id, {
+    attributes: { exclude: ['password'] },
+  });
+  if (!users) return { status: 'NOT_FOUND', data: { message: 'User does not exist' } };
+  return { status: 'SUCCESSFUL', data: users };
+};
+
 const postUser = async (req) => {
   const error = await validateUser(req.body);
   if (error) return { status: error.status, data: { message: error.message } };
@@ -26,4 +34,5 @@ const postUser = async (req) => {
 module.exports = {
   postUser,
   getUser,
+  getUserById,
 };
