@@ -1,5 +1,5 @@
 const express = require('express');
-const { loginController } = require('./controllers');
+const { loginController, userController } = require('./controllers');
 
 const app = express();
 
@@ -11,5 +11,7 @@ app.get('/', (_request, response) => {
 app.use(express.json());
 
 app.post('/login', async (req, res) => loginController.postLogin(req, res));
+
+app.post('/user', async (req, res) => userController.postUser(req, res));
 
 module.exports = app;

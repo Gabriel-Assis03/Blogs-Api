@@ -1,32 +1,21 @@
 const Joi = require('joi');
 
-const nameSchema = Joi.string().min(5).required();
+const displayNameSchema = Joi.string().min(8).messages({
+  'string.min': '"displayName" length must be at least 8 characters long',
+}).required();
 
-const addProduct = Joi.object({
-  name: nameSchema,
-});
+const passwordSchema = Joi.string().min(6).messages({
+  'string.min': '"password" length must be at least 6 characters long',
+}).required();
 
-const objectSchemaRequired = Joi.object({
-  productId: Joi.number().required().messages({
-    'any.required': '"productId" is required',
-  }),
-  quantity: Joi.number().required().messages({
-    'any.required': '"quantity" is required',
-  }),
-});
-
-const objectSchemaQuantity = Joi.object({
-  productId: Joi.required(),
-  quantity: Joi.number().integer().min(1).messages({
-    'number.min': '"quantity" must be greater than or equal to 1',
-  }),
-});
-
-const newSale1 = Joi.array().items(objectSchemaRequired);
-const newSale2 = Joi.array().items(objectSchemaQuantity);
+const emailSchema = Joi.string().email({
+  minDomainSegments: 2,
+}).messages({
+  'string.email': '"email" must be a valid email',
+}).required();
 
 module.exports = {
-  addProduct,
-  newSale1,
-  newSale2,
+  displayNameSchema,
+  emailSchema,
+  passwordSchema,
 };
