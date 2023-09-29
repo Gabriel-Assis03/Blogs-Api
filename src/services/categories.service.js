@@ -1,6 +1,11 @@
 const { Category } = require('../models');
 // const { validateUser } = require('./validations/validationsInputValues');
 
+const getCategories = async () => {
+  const categories = await Category.findAll();
+  return { status: 'SUCCESSFUL', data: categories };
+};
+
 const postCategories = async (req) => {
   const { name } = req.body;
   if (!name) return { status: 'INVALID_KEY', data: { message: '"name" is required' } };
@@ -12,4 +17,5 @@ const postCategories = async (req) => {
 
 module.exports = {
   postCategories,
+  getCategories,
 };
