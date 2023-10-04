@@ -5,13 +5,13 @@ const PostCategory = (sequelize, DataTypes) => {
         foreignKey: true
       },
       categoryId: {
-        type: DataTypes.INTEGER, 
+        type: DataTypes.INTEGER,
         foreignKey: true
       },
     },
     {
       timestamps: false,
-      tableName: 'post_categories',
+      tableName: 'posts_categories',
       underscored: true,
     },
   );
